@@ -1,0 +1,12 @@
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/bin/Debug/net9.0/ChessFederationManager.Domain.deps.json
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/bin/Debug/net9.0/ChessFederationManager.Domain.dll
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/bin/Debug/net9.0/ChessFederationManager.Domain.pdb
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/obj/Debug/net9.0/ChessFederationManager.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/obj/Debug/net9.0/ChessFederationManager.Domain.AssemblyInfoInputs.cache
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/obj/Debug/net9.0/ChessFederationManager.Domain.AssemblyInfo.cs
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/obj/Debug/net9.0/ChessFederationManager.Domain.csproj.CoreCompileInputs.cache
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/obj/Debug/net9.0/ChessFederationManager.Domain.sourcelink.json
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/obj/Debug/net9.0/ChessFederationManager.Domain.dll
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/obj/Debug/net9.0/refint/ChessFederationManager.Domain.dll
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/obj/Debug/net9.0/ChessFederationManager.Domain.pdb
+/Users/voccam/Documents/ECAM/3BE/Info/Projet Chess DB/Chessfederationmanager/src/ChessFederationManager.Domain/obj/Debug/net9.0/ref/ChessFederationManager.Domain.dll
