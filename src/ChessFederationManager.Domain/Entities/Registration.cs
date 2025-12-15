@@ -1,47 +1,18 @@
 namespace ChessFederationManager.Domain.Entities;
 
-/// <summary>
-/// Represents the fact that a player is registered in a competition.
-/// </summary>
-public class Registration
+public sealed class Registration
 {
-    public Guid Id { get; }
     public Guid CompetitionId { get; }
-    public Player Player { get; }
-    public DateTime RegisteredAt { get; }
-    public decimal FeeAmount { get; }
-    public bool FeePaid { get; private set; }
-    public int? Seed { get; private set; }
+    public Guid PlayerId { get; }
+    public DateTimeOffset RegisteredAtUtc { get; }
 
-    public Registration(Guid competitionId, Player player, decimal feeAmount, DateTime? registeredAt = null, bool feePaid = false)
+    public Registration(Guid competitionId, Guid playerId, DateTimeOffset registeredAtUtc)
     {
-        if (competitionId == Guid.Empty)
-        {
-            throw new ArgumentException("Competition id must be set.", nameof(competitionId));
-        }
+        if (competitionId == Guid.Empty) throw new ArgumentException("CompetitionId is required.");
+        if (playerId == Guid.Empty) throw new ArgumentException("PlayerId is required.");
 
-        Player = player ?? throw new ArgumentNullException(nameof(player));
-        if (feeAmount < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(feeAmount), "Fee cannot be negative.");
-        }
-
-        Id = Guid.NewGuid();
         CompetitionId = competitionId;
-        FeeAmount = feeAmount;
-        FeePaid = feePaid;
-        RegisteredAt = registeredAt ?? DateTime.UtcNow;
-    }
-
-    public void MarkFeeAsPaid() => FeePaid = true;
-
-    public void AssignSeed(int seed)
-    {
-        if (seed < 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(seed), "Seed must be positive.");
-        }
-
-        Seed = seed;
+        PlayerId = playerId;
+        RegisteredAtUtc = registeredAtUtc;
     }
 }

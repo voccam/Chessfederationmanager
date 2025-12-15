@@ -1,2 +1,17 @@
-# Chessfederationmanager
-Avalonia UI application for managing chess federation competitions, players, games, and Elo rankings with a modular and adaptable architecture.
+# Chess Federation Manager
+
+Avalonia UI application to manage chess federation competitions:
+- Players management
+- Competitions management
+- Registrations
+- Games recording (moves + results)
+- Elo rating calculation
+- Persistent storage
+
+## Tech
+- .NET
+- Avalonia UI
+
+## Run
+```bash
+dotnet run --project src/ChessFederationManager.UI/ChessFederationManager.UI.csproj

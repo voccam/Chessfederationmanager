@@ -1,9 +1,31 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ChessFederationManager.UI.MainWindow"
-        Title="ChessFederationManager.UI">
-    Welcome to Avalonia!
+        Width="1000" Height="600"
+        Title="Chess Federation Manager">
+
+  <Grid ColumnDefinitions="220,*" RowDefinitions="Auto,*">
+    <!-- Top bar -->
+    <Border Grid.ColumnSpan="2" Padding="12">
+      <TextBlock FontSize="20" FontWeight="Bold" Text="Chess Federation Manager" />
+    </Border>
+
+    <!-- Left menu -->
+    <Border Grid.Row="1" Grid.Column="0" Padding="12">
+      <StackPanel Spacing="8">
+        <Button Content="Players" />
+        <Button Content="Competitions" />
+        <Button Content="Games" />
+        <Button Content="Elo Ranking" />
+        <Separator Margin="0,8,0,8"/>
+        <TextBlock Opacity="0.7" Text="Step 0: UI shell" />
+      </StackPanel>
+    </Border>
+
+    <!-- Main content placeholder -->
+    <Border Grid.Row="1" Grid.Column="1" Padding="12">
+      <TextBlock FontSize="16" Text="Welcome. UI navigation will be implemented in next steps." />
+    </Border>
+  </Grid>
+
 </Window>

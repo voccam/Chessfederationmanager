@@ -1,97 +1,60 @@
 namespace ChessFederationManager.Domain.Entities;
 
-/// <summary>
-/// Represents a chess competition organized by the federation.
-/// </summary>
-public class Competition
+public sealed class Competition
 {
-    private readonly List<Registration> _registrations = new();
-    private readonly List<Game> _games = new();
-
-    public Guid Id { get; }
+    public Guid Id { get; private set; }
     public string Name { get; private set; }
-    public string Location { get; private set; }
     public DateOnly StartDate { get; private set; }
-    public DateOnly EndDate { get; private set; }
-    public IReadOnlyCollection<Registration> Registrations => _registrations.AsReadOnly();
-    public IReadOnlyCollection<Game> Games => _games.AsReadOnly();
+    public string Location { get; private set; }
 
-    public Competition(string name, DateOnly startDate, DateOnly endDate, string location)
+    private readonly List<Registration> _registrations = new();
+    public IReadOnlyCollection<Registration> Registrations => _registrations.AsReadOnly();
+
+    public Competition(string name, DateOnly startDate, string location)
     {
-        if (endDate < startDate)
-        {
-            throw new ArgumentException("The end date must be after the start date.", nameof(endDate));
-        }
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is required.");
+        if (string.IsNullOrWhiteSpace(location)) throw new ArgumentException("Location is required.");
 
         Id = Guid.NewGuid();
-        Name = RequireText(name, nameof(name));
-        Location = RequireText(location, nameof(location));
+        Name = name.Trim();
         StartDate = startDate;
-        EndDate = endDate;
+        Location = location.Trim();
     }
 
-    public void Rename(string name) => Name = RequireText(name, nameof(name));
-
-    public void ChangeLocation(string location) => Location = RequireText(location, nameof(location));
-
-    public void Reschedule(DateOnly start, DateOnly end)
+    public Competition(Guid id, string name, DateOnly startDate, string location)
+        : this(name, startDate, location)
     {
-        if (end < start)
-        {
-            throw new ArgumentException("The end date must be after the start date.", nameof(end));
-        }
-
-        StartDate = start;
-        EndDate = end;
+        if (id == Guid.Empty) throw new ArgumentException("Id is required.");
+        Id = id;
     }
 
-    public Registration RegisterPlayer(Player player, decimal feeAmount, DateTime? registeredAt = null)
+    public void UpdateInfo(string name, DateOnly startDate, string location)
     {
-        if (player == null)
-        {
-            throw new ArgumentNullException(nameof(player));
-        }
+        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is required.");
+        if (string.IsNullOrWhiteSpace(location)) throw new ArgumentException("Location is required.");
 
-        if (_registrations.Any(r => r.Player.Id == player.Id))
-        {
-            throw new InvalidOperationException("Player already registered.");
-        }
-
-        var registration = new Registration(Id, player, feeAmount, registeredAt);
-        _registrations.Add(registration);
-        return registration;
+        Name = name.Trim();
+        StartDate = startDate;
+        Location = location.Trim();
     }
 
-    public Game ScheduleGame(Player whitePlayer, Player blackPlayer, int round, DateTime scheduledAt)
+    public Registration Register(Player player)
     {
-        EnsurePlayerRegistered(whitePlayer);
-        EnsurePlayerRegistered(blackPlayer);
+        if (player is null) throw new ArgumentNullException(nameof(player));
 
-        var game = new Game(Id, whitePlayer, blackPlayer, round, scheduledAt);
-        _games.Add(game);
-        return game;
+        // règle métier: pas de doublon d'inscription
+        if (_registrations.Any(r => r.PlayerId == player.Id))
+            throw new InvalidOperationException("Player is already registered in this competition.");
+
+        var reg = new Registration(Id, player.Id, DateTimeOffset.UtcNow);
+        _registrations.Add(reg);
+        return reg;
     }
 
-    public IEnumerable<Game> GetGamesForRound(int round) => _games.Where(g => g.Round == round);
-
-    public IEnumerable<Game> GetGamesForPlayer(Guid playerId) =>
-        _games.Where(g => g.WhitePlayer.Id == playerId || g.BlackPlayer.Id == playerId);
-
-    private static string RequireText(string value, string parameterName)
+    public void Unregister(Guid playerId)
     {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            throw new ArgumentException("A value is required.", parameterName);
-        }
-
-        return value.Trim();
-    }
-
-    private void EnsurePlayerRegistered(Player player)
-    {
-        if (!_registrations.Any(r => r.Player.Id == player.Id))
-        {
-            throw new InvalidOperationException($"Player {player} is not registered in {Name}.");
-        }
+        var reg = _registrations.FirstOrDefault(r => r.PlayerId == playerId);
+        if (reg is null) return;
+        _registrations.Remove(reg);
     }
 }

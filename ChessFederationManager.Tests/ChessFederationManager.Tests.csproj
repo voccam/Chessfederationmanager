@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\src\ChessFederationManager.Domain\ChessFederationManager.Domain.csproj" />
     <ProjectReference Include="..\src\ChessFederationManager.Application\ChessFederationManager.Application.csproj" />
+    <ProjectReference Include="..\src\ChessFederationManager.Infrastructure\ChessFederationManager.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

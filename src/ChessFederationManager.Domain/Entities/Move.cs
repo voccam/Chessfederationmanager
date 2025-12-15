@@ -1,37 +1,18 @@
 namespace ChessFederationManager.Domain.Entities;
 
-/// <summary>
-/// Represents a single move in a chess game using SAN notation.
-/// </summary>
-public class Move
+public sealed class Move
 {
-    public int Number { get; }
+    public int Ply { get; }
     public string Notation { get; }
-    public TimeSpan? TimeSpent { get; }
-    public string? Comment { get; }
-    public DateTime RecordedAt { get; }
+    public DateTimeOffset PlayedAtUtc { get; }
 
-    public Move(int number, string notation, TimeSpan? timeSpent = null, string? comment = null, DateTime? recordedAt = null)
+    public Move(int ply, string notation, DateTimeOffset? playedAtUtc = null)
     {
-        if (number < 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(number), "Move number must be positive.");
-        }
+        if (ply <= 0) throw new ArgumentOutOfRangeException(nameof(ply), "Ply must be >= 1.");
+        if (string.IsNullOrWhiteSpace(notation)) throw new ArgumentException("Notation is required.");
 
-        if (string.IsNullOrWhiteSpace(notation))
-        {
-            throw new ArgumentException("Move notation must be provided.", nameof(notation));
-        }
-
-        Number = number;
+        Ply = ply;
         Notation = notation.Trim();
-        TimeSpent = timeSpent;
-        Comment = string.IsNullOrWhiteSpace(comment) ? null : comment.Trim();
-        RecordedAt = recordedAt ?? DateTime.UtcNow;
+        PlayedAtUtc = playedAtUtc ?? DateTimeOffset.UtcNow;
     }
-
-    public bool EndsWithCheck => Notation.Contains('+', StringComparison.Ordinal);
-    public bool EndsWithMate => Notation.Contains('#', StringComparison.Ordinal);
-
-    public override string ToString() => $"{Number}. {Notation}";
 }
