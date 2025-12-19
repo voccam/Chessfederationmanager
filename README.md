@@ -27,6 +27,13 @@ Tous les éléments demandés (introduction, description de la fonctionnalité s
 dotnet run --project src/ChessFederationManager.UI/ChessFederationManager.UI.csproj
 ```
 
+### Préremplir la base avec un scénario de test
+Un utilitaire console est fourni pour créer rapidement des joueurs, compétitions et parties afin de voir le classement évoluer.
+```bash
+dotnet run --project tools/Seeder/ChessFederationManager.Seeder.csproj
+```
+Par défaut il renseigne `data/chess.db` (même fichier que l’UI si lancée depuis la racine). Vous pouvez passer un autre chemin en argument : `dotnet run --project tools/Seeder/ChessFederationManager.Seeder.csproj -- ./data/custom.db`.
+
 ## Tests
 ```bash
 dotnet test
