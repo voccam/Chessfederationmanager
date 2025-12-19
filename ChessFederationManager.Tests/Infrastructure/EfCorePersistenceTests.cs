@@ -1,4 +1,5 @@
 using ChessFederationManager.Application.Services;
+using ChessFederationManager.Domain.Entities;
 using ChessFederationManager.Infrastructure;
 using ChessFederationManager.Infrastructure.Data;
 using ChessFederationManager.Infrastructure.Repositories.EfCore;
@@ -28,6 +29,33 @@ public class EfCorePersistenceTests
         Assert.Equal(1500, loaded.Elo);
 
         // cleanup
+        db.Dispose();
+        if (File.Exists(dbPath)) File.Delete(dbPath);
+    }
+
+    [Fact]
+    public async Task Competition_With_Registrations_Is_Persisted()
+    {
+        var dbPath = Path.Combine(Path.GetTempPath(), $"chess_comp_test_{Guid.NewGuid():N}.db");
+        var cs = DatabaseConfig.DefaultConnectionString(dbPath);
+
+        using var db = DbContextFactory.Create(cs);
+        var repo = new EfCompetitionRepository(db);
+
+        var competition = new Competition("Spring Open", new DateOnly(2025, 4, 1), "Namur");
+        var registeredPlayerId = Guid.NewGuid();
+        competition.LoadRegistrations(new[]
+        {
+            new Registration(competition.Id, registeredPlayerId, DateTimeOffset.UtcNow)
+        });
+
+        await repo.AddAsync(competition);
+
+        var loaded = await repo.GetByIdAsync(competition.Id);
+
+        Assert.NotNull(loaded);
+        Assert.True(loaded!.IsPlayerRegistered(registeredPlayerId));
+
         db.Dispose();
         if (File.Exists(dbPath)) File.Delete(dbPath);
     }
