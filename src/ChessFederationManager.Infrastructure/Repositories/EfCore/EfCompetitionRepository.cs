@@ -12,39 +12,42 @@ public sealed class EfCompetitionRepository : ICompetitionRepository
     public EfCompetitionRepository(ChessDbContext db) => _db = db;
 
     public async Task<IReadOnlyList<Competition>> GetAllAsync(CancellationToken ct = default)
-        => await _db.Competitions.AsNoTracking()
-            .Select(c => new Competition(c.Id, c.Name, c.StartDate, c.Location))
+    {
+        var records = await _db.Competitions.AsNoTracking()
+            .Include(c => c.Registrations)
             .ToListAsync(ct);
+
+        return records.Select(r => r.ToDomain()).ToList();
+    }
 
     public async Task<Competition?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
         var r = await _db.Competitions.AsNoTracking()
+            .Include(c => c.Registrations)
             .FirstOrDefaultAsync(c => c.Id == id, ct);
 
-        return r is null ? null : new Competition(r.Id, r.Name, r.StartDate, r.Location);
+        return r?.ToDomain();
     }
 
     public async Task AddAsync(Competition competition, CancellationToken ct = default)
     {
-        _db.Competitions.Add(new CompetitionRecord
-        {
-            Id = competition.Id,
-            Name = competition.Name,
-            StartDate = competition.StartDate,
-            Location = competition.Location
-        });
+        _db.Competitions.Add(competition.ToRecord());
 
         await _db.SaveChangesAsync(ct);
     }
 
     public async Task UpdateAsync(Competition competition, CancellationToken ct = default)
     {
-        var rec = await _db.Competitions.FirstOrDefaultAsync(c => c.Id == competition.Id, ct)
+        var rec = await _db.Competitions
+            .Include(c => c.Registrations)
+            .FirstOrDefaultAsync(c => c.Id == competition.Id, ct)
                   ?? throw new InvalidOperationException("Competition not found.");
 
         rec.Name = competition.Name;
         rec.StartDate = competition.StartDate;
         rec.Location = competition.Location;
+        _db.Registrations.RemoveRange(rec.Registrations);
+        rec.Registrations = competition.Registrations.Select(r => r.ToRecord()).ToList();
 
         await _db.SaveChangesAsync(ct);
     }
