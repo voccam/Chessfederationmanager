@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChessFederationManager.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fbc3636e300270904f20e106f860d801334977d3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+83312e9d5cca8274f8f497c748d9c3957f834ab4")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChessFederationManager.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChessFederationManager.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
