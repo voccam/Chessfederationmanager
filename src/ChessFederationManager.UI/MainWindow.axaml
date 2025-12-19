@@ -1,31 +1,24 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:ChessFederationManager.UI.Views"
+        xmlns:viewModels="clr-namespace:ChessFederationManager.UI.ViewModels"
         x:Class="ChessFederationManager.UI.MainWindow"
-        Width="1000" Height="600"
+        x:DataType="viewModels:MainViewModel"
+        Width="1100" Height="700"
         Title="Chess Federation Manager">
-
-  <Grid ColumnDefinitions="220,*" RowDefinitions="Auto,*">
-    <!-- Top bar -->
-    <Border Grid.ColumnSpan="2" Padding="12">
-      <TextBlock FontSize="20" FontWeight="Bold" Text="Chess Federation Manager" />
-    </Border>
-
-    <!-- Left menu -->
-    <Border Grid.Row="1" Grid.Column="0" Padding="12">
-      <StackPanel Spacing="8">
-        <Button Content="Players" />
-        <Button Content="Competitions" />
-        <Button Content="Games" />
-        <Button Content="Elo Ranking" />
-        <Separator Margin="0,8,0,8"/>
-        <TextBlock Opacity="0.7" Text="Step 0: UI shell" />
-      </StackPanel>
-    </Border>
-
-    <!-- Main content placeholder -->
-    <Border Grid.Row="1" Grid.Column="1" Padding="12">
-      <TextBlock FontSize="16" Text="Welcome. UI navigation will be implemented in next steps." />
-    </Border>
-  </Grid>
-
+  <TabControl>
+    <TabItem Header="Players">
+      <views:PlayersView DataContext="{Binding Players}"/>
+    </TabItem>
+    <TabItem Header="Competitions">
+      <views:CompetitionsView DataContext="{Binding Competitions}"/>
+    </TabItem>
+    <TabItem Header="Games">
+      <views:GamesView DataContext="{Binding Games}"/>
+    </TabItem>
+    <TabItem Header="Leaderboard">
+      <views:LeaderboardView DataContext="{Binding Leaderboard}"/>
+    </TabItem>
+  </TabControl>
 </Window>
+

@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="clr-namespace:ChessFederationManager.UI.ViewModels"
+             x:Class="ChessFederationManager.UI.Views.LeaderboardView"
+             x:DataType="d:LeaderboardViewModel">
+
+  <Grid RowDefinitions="Auto,*,Auto" Margin="12">
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <TextBlock FontSize="18" Text="Classement Elo"/>
+      <Button Content="Actualiser" Click="Refresh_Click"/>
+    </StackPanel>
+
+    <DataGrid Grid.Row="1"
+              Margin="0,10,0,10"
+              ItemsSource="{Binding Players}"
+              AutoGenerateColumns="False"
+              IsReadOnly="True">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="#" Binding="{Binding Rank}" Width="Auto"/>
+        <DataGridTextColumn Header="Nom" Binding="{Binding FullName}" Width="2*"/>
+        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="2*"/>
+        <DataGridTextColumn Header="Elo" Binding="{Binding Elo}" Width="*"/>
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <TextBlock Grid.Row="2" Text="{Binding Status}"/>
+  </Grid>
+</UserControl>
