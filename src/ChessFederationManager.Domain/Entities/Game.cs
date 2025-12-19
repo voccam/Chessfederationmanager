@@ -9,9 +9,11 @@ public sealed class Game
     public Guid WhitePlayerId { get; }
     public Guid BlackPlayerId { get; }
 
-    public GameResult Result { get; private set; } = GameResult.NotPlayed;
+    public ChessFederationManager.Domain.Enums.GameResult Result { get; private set; } = ChessFederationManager.Domain.Enums.GameResult.NotPlayed;
 
-    private readonly List<Move> _moves = new();
+
+    private readonly List<ChessFederationManager.Domain.Entities.Move> _moves = new();
+
     public IReadOnlyList<Move> Moves => _moves.AsReadOnly();
 
     public Game(Guid competitionId, Guid whitePlayerId, Guid blackPlayerId)

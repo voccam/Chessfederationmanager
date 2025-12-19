@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="clr-namespace:ChessFederationManager.UI.ViewModels"
+             x:Class="ChessFederationManager.UI.Views.PlayersView"
+             x:DataType="d:PlayersViewModel">
+
+  <Grid RowDefinitions="Auto,* ,Auto" ColumnDefinitions="2*,3*" Margin="12">
+
+    <!-- Form -->
+    <StackPanel Spacing="8">
+      <TextBlock FontSize="18" Text="Players" />
+
+      <TextBox Watermark="First name" Text="{Binding FirstName}"/>
+      <TextBox Watermark="Last name" Text="{Binding LastName}"/>
+      <TextBox Watermark="Email" Text="{Binding Email}"/>
+      <TextBox Watermark="Elo" Text="{Binding Elo}"/>
+
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Button Content="Add" Click="Add_Click"/>
+        <Button Content="Delete selected" Click="Delete_Click"/>
+        <Button Content="Refresh" Click="Refresh_Click"/>
+      </StackPanel>
+    </StackPanel>
+
+    <!-- List -->
+    <Border Grid.Column="1" Padding="8" BorderThickness="1">
+      <DataGrid ItemsSource="{Binding Players}"
+                SelectedItem="{Binding SelectedPlayer}"
+                AutoGenerateColumns="False">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="First" Binding="{Binding FirstName}" Width="*"/>
+          <DataGridTextColumn Header="Last" Binding="{Binding LastName}" Width="*"/>
+          <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="2*"/>
+          <DataGridTextColumn Header="Elo" Binding="{Binding Elo}" Width="*"/>
+        </DataGrid.Columns>
+      </DataGrid>
+    </Border>
+
+    <!-- Status -->
+    <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Status}" Margin="0,10,0,0"/>
+  </Grid>
+</UserControl>

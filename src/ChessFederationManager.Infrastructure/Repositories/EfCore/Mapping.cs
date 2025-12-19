@@ -36,14 +36,13 @@ internal static class Mapping
         RegisteredAtUtc = r.RegisteredAtUtc
     };
 
+    public static Registration ToDomain(this RegistrationRecord r)
+        => new Registration(r.CompetitionId, r.PlayerId, r.RegisteredAtUtc);
+
     public static Competition ToDomain(this CompetitionRecord r)
     {
         var c = new Competition(r.Id, r.Name, r.StartDate, r.Location);
-
-        // On recharge les inscriptions (si ton Domain n’a pas de méthode, on le fait via Register)
-        // MAIS Register requiert un Player -> pas dispo ici.
-        // Donc on conseille d'ajouter une méthode d'hydratation côté Competition.
-        // Si tu ne l’as pas, on ignore les registrations ici et on les gère via repository dédié plus tard.
+        c.LoadRegistrations(r.Registrations.Select(ToDomain));
         return c;
     }
 
@@ -66,18 +65,14 @@ internal static class Mapping
         PlayedAtUtc = m.PlayedAtUtc
     };
 
+    public static Move ToDomain(this MoveRecord r)
+        => new Move(r.Ply, r.Notation, r.PlayedAtUtc);
+
     public static Game ToDomain(this GameRecord r)
     {
         var g = new Game(r.Id, r.CompetitionId, r.WhitePlayerId, r.BlackPlayerId);
-
-        // Si tu as LoadFromPersistence :
-        // g.LoadFromPersistence(r.Moves.OrderBy(m => m.Ply).Select(ToDomainMove), r.Result);
-
-        // Sinon : on fait le minimum (result + moves via méthodes publiques)
-        g.SetResult(r.Result);
-        foreach (var mv in r.Moves.OrderBy(m => m.Ply))
-            g.AddMove(new Move(mv.Ply, mv.Notation, mv.PlayedAtUtc));
-
+        var moves = r.Moves.OrderBy(m => m.Ply).Select(ToDomain).ToList();
+        g.LoadFromPersistence(moves, r.Result);
         return g;
     }
 }
