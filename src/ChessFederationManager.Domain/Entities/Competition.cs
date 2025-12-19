@@ -57,4 +57,13 @@ public sealed class Competition
         if (reg is null) return;
         _registrations.Remove(reg);
     }
+
+    public bool IsPlayerRegistered(Guid playerId)
+        => _registrations.Any(r => r.PlayerId == playerId);
+
+    public void LoadRegistrations(IEnumerable<Registration> registrations)
+    {
+        _registrations.Clear();
+        _registrations.AddRange(registrations);
+    }
 }
